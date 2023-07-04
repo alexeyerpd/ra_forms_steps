@@ -1,0 +1,81 @@
+@use 'styles/variables';
+
+$block: '.#{variables.$ns}steps';
+
+#{$block} {
+    max-width: 900px;
+
+    &__form {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+    }
+
+    &__form-block {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__form-label {
+        font-weight: 700;
+    }
+
+    &__form-input {
+        padding: 10px 15px;
+
+        font-size: 16px;
+        line-height: 18px;
+
+        border: 2px solid #000;
+        border-radius: 4px;
+    }
+
+    &__form-btn {
+        padding: 10px 15px;
+        text-transform: uppercase;
+
+        line-height: 18px;
+
+        background: none;
+        border: 2px solid #000;
+        border-radius: 4px;
+
+        cursor: pointer;
+    }
+
+    &__content {
+        display: grid;
+        gap: 15px;
+
+        margin-block-start: 20px;
+    }
+
+    &__table {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+
+        padding-inline: 25px;
+
+        &_header {
+            font-weight: 700;
+        }
+
+        &_content {
+            padding-block: 25px;
+            border: 2px solid #000;
+            border-radius: 25px;
+        }
+    }
+
+    &__table-item {
+        display: flex;
+        gap: 10px;
+
+        &:nth-child(3n - 1),
+        &:nth-child(3n) {
+            justify-self: center;
+        }
+    }
+}

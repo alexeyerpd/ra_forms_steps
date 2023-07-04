@@ -16,7 +16,8 @@
     "noUnusedParameters": false,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "checkJs": false
+    "checkJs": false,
+    "esModuleInterop": false
   },
   "include": ["**/*"],
   "exclude": []
