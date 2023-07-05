@@ -8,13 +8,15 @@ const block = cn('steps');
 interface Workout {
     id: number;
     date: string;
-    distance: string;
+    distance: number;
 }
 
 export function Steps() {
     const [workouts, setWorkounts] = React.useState<Workout[]>([
-        {id: 0, date: '04.04.17', distance: '10'},
-        {id: 1, date: '05.04.17', distance: '15'},
+        {id: 0, date: '05.06.17', distance: 10},
+        {id: 1, date: '10.04.18', distance: 5},
+        {id: 2, date: '04.04.17', distance: 47},
+        {id: 3, date: '05.04.17', distance: 15},
     ]);
     const formRef = React.useRef<HTMLFormElement>(null);
 
@@ -23,7 +25,7 @@ export function Steps() {
         const fd = new FormData(e.target);
         const data = Object.fromEntries([...fd]);
 
-        if (Object.values(data).filter(Boolean).length < 1) {
+        if (Object.values(data).some((value) => !value)) {
             return;
         }
 
@@ -39,7 +41,7 @@ export function Steps() {
 
                 newData = {
                     ...elem,
-                    distance: String(Number(elem.distance) + Number(data.distance)),
+                    distance: Number(elem.distance) + Number(data.distance),
                 } as Workout;
 
                 return [...pW.slice(0, sameElementIndex), newData, ...pW.slice(sameElementIndex + 1)];
@@ -60,6 +62,10 @@ export function Steps() {
         });
     };
 
+    const sortedWorkouts = React.useMemo(() => {
+        return workouts.sort(sortDate);
+    }, [workouts]);
+
     return (
         <div className={block()}>
             <form ref={formRef} className={block('form')} onSubmit={handleCreate}>
@@ -73,7 +79,7 @@ export function Steps() {
                     <label className={block('form-label')} htmlFor="distance">
                         Пройдено км
                     </label>
-                    <input className={block('form-input')} type="text" name="distance" id="distance" />
+                    <input className={block('form-input')} type="number" name="distance" id="distance" />
                 </div>
                 <div className={block('form-block')}>
                     <button className={block('form-btn')} type="submit">
@@ -87,7 +93,7 @@ export function Steps() {
                     <div className={block('table-item')}>Пройдено км</div>
                     <div className={block('table-item')}>Действия</div>
                 </div>
-                {workouts.length > 0 && (
+                {sortedWorkouts.length > 0 && (
                     <div className={block('table', {content: true})}>
                         {workouts.map((item) => {
                             const handleRemove = () => {
@@ -172,4 +178,8 @@ function WorkoutItem({item, onRemove, onChange}: WorkoutItemProps) {
             </div>
         </React.Fragment>
     );
+}
+
+function sortDate({date: dateA}: Workout, {date: dateB}: Workout) {
+    return new Date(dateB).getTime() - new Date(dateA).getTime();
 }
